@@ -20,6 +20,9 @@
       "es2015"
     ]
   },
+  "engines": {
+    "node": "4.2.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/danielsiwiec/todo-backend-restify-redux.git"
