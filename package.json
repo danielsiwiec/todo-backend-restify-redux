@@ -1,0 +1,34 @@
+{
+  "name": "todo-backend-restify-redux",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel-node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "restify": "^4.0.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.4.5",
+    "babel-core": "^6.4.5",
+    "babel-preset-es2015": "^6.3.13"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielsiwiec/todo-backend-restify-redux.git"
+  },
+  "keywords": [],
+  "author": "Dan Siwiec <daniel.siwiec@gmail.com> (http://danoncoding.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danielsiwiec/todo-backend-restify-redux/issues"
+  },
+  "homepage": "https://github.com/danielsiwiec/todo-backend-restify-redux#readme"
+}
