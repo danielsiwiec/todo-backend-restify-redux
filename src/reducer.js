@@ -1,15 +1,17 @@
 import {fromJS, List, Map} from 'immutable';
 import Todo from './todo';
+import shortid from 'shortid'
 
-const INITIAL_STATE = fromJS({todos: {}, currentId: 0});
+const INITIAL_STATE = fromJS({todos: {}});
 
 export default function reducer(state=INITIAL_STATE, action){
 
   switch(action.type) {
     case 'ADD':
-      let todo = new Todo(action.todo, state.get('currentId'));
+      let newId = shortid.generate();
+      let todo = new Todo(action.todo, newId);
       return state.updateIn(['todos'], todos => todos.set(todo.id, todo))
-        .update('currentId', id => id + 1);
+        .update('currentId', id => newId );
     case 'DELETE_ALL':
       return state.set('todos', Map());
     case 'EDIT':

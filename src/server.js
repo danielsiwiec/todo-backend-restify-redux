@@ -18,14 +18,13 @@ export default function startServer(store){
   });
 
   server.get({name: 'id', path: '/:id' }, (req, res, next) => {
-    let id = Number(req.params.id);
-    res.json(decorateWithUrl(findById(id), req));
+    res.json(decorateWithUrl(findById(req.params.id), req));
     return next();
   });
 
   server.post('/', (req, res, next) => {
     store.dispatch({type: 'ADD', todo:req.body});
-    res.json(decorateWithUrl(store.getState().get('todos').last(), req));
+    res.json(decorateWithUrl(getLastTodo(), req));
     return next();
   });
 
@@ -36,16 +35,14 @@ export default function startServer(store){
   });
 
   server.del('/:id', (req, res, next) => {
-    let id = Number(req.params.id);
-    store.dispatch({type: 'DELETE', id: id });
+    store.dispatch({type: 'DELETE', id: req.params.id });
     res.end();
     return next();
   });
 
   server.patch('/:id', (req, res, next) => {
-    let id = Number(req.params.id);
-    store.dispatch({type: 'EDIT', id: id, patch: req.body});
-    res.json(decorateWithUrl(findById(id), req));
+    store.dispatch({type: 'EDIT', id: req.params.id, patch: req.body});
+    res.json(decorateWithUrl(findById(req.params.id), req));
     return next();
   });
 
@@ -55,5 +52,10 @@ export default function startServer(store){
 
   function findById(id) {
     return store.getState().get('todos').get(id);
+  }
+
+  function getLastTodo(){
+    let currentId = store.getState().get('currentId');
+    return store.getState().getIn(['todos', currentId]);
   }
 }
