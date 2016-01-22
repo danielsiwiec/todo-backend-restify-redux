@@ -1,5 +1,5 @@
 import restify from 'restify';
-import urlDecorator from './UrlDecorator';
+import urlDecorator from './urlDecorator';
 import {findById, getLast} from './storeHelper';
 
 export default function startServer(store){
