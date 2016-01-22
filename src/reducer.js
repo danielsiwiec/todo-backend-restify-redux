@@ -15,7 +15,7 @@ export default function reducer(state=INITIAL_STATE, action){
     case 'DELETE_ALL':
       return state.set('todos', Map());
     case 'EDIT':
-      return state.updateIn(['todos', action.id], todo => Object.assign(todo, action.patch));
+      return state.updateIn(['todos', action.id], todo => Object.assign({}, todo, action.patch));
     case 'DELETE':
       return state.deleteIn(['todos', action.id]);
   }
