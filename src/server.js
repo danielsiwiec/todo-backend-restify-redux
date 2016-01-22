@@ -9,22 +9,23 @@ export default function startServer(store){
   server.use(restify.bodyParser());
 
   const urlDecorator = new UrlDecorator(server.router);
+  const decorateWithUrl = urlDecorator.decorate.bind(urlDecorator);
 
   server.get('/', (req, res, next) => {
-    let todos = store.getState().get('todos').toList().toJS();
-    res.json(todos.map(todo => urlDecorator.decorate(todo, req)));
+    let todos = store.getState().get('todos').toList();
+    res.json(todos.map(todo => decorateWithUrl(todo, req)));
     return next();
   });
 
   server.get({name: 'id', path: '/:id' }, (req, res, next) => {
-    res.json(urlDecorator.decorate(findById(req.params.id), req));
-    next();
+    let id = Number(req.params.id);
+    res.json(decorateWithUrl(findById(id), req));
+    return next();
   });
 
   server.post('/', (req, res, next) => {
     store.dispatch({type: 'ADD', todo:req.body});
-    let todo = store.getState().get('todos').last();
-    res.json(urlDecorator.decorate(todo, req));
+    res.json(decorateWithUrl(store.getState().get('todos').last(), req));
     return next();
   });
 
@@ -35,14 +36,16 @@ export default function startServer(store){
   });
 
   server.del('/:id', (req, res, next) => {
-    store.dispatch({type: 'DELETE', id: Number(req.params.id) });
+    let id = Number(req.params.id);
+    store.dispatch({type: 'DELETE', id: id });
     res.end();
     return next();
   });
 
   server.patch('/:id', (req, res, next) => {
-    store.dispatch({type: 'EDIT', id: Number(req.params.id), patch: req.body});
-    res.json(urlDecorator.decorate(findById(req.params.id), req));
+    let id = Number(req.params.id);
+    store.dispatch({type: 'EDIT', id: id, patch: req.body});
+    res.json(decorateWithUrl(findById(id), req));
     return next();
   });
 
@@ -51,6 +54,6 @@ export default function startServer(store){
   });
 
   function findById(id) {
-    return store.getState().get('todos').get(Number(id));
+    return store.getState().get('todos').get(id);
   }
 }
