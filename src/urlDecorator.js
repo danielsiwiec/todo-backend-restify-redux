@@ -10,4 +10,7 @@ class UrlDecorator{
   }
 }
 
-export default UrlDecorator;
+export default function decoratorFactory(router){
+  let decorator = new UrlDecorator(router);
+  return decorator.decorate.bind(decorator);
+}
