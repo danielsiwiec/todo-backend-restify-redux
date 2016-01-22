@@ -17,22 +17,32 @@ export default function startServer(store){
   });
 
   server.get({name: 'id', path: '/:id' }, (req, res, next) => {
-    let id = Number(req.params.id);
-    res.json(store.getState().get('todos').get(id));
+    res.json(urlDecorator.decorate(findById(req.params.id), req));
     next();
   });
 
   server.post('/', (req, res, next) => {
     store.dispatch({type: 'ADD', todo:req.body});
     let todo = store.getState().get('todos').last();
-    res.send(urlDecorator.decorate(todo, req));
+    res.json(urlDecorator.decorate(todo, req));
     return next();
   });
 
   server.del('/', (req, res, next) => {
-    console.log('delete all');
+    store.dispatch({type: 'DELETE_ALL'});
     res.end();
-    store.dispatch({type: 'DELETE_ALL', todo:req.body});
+    return next();
+  });
+
+  server.del('/:id', (req, res, next) => {
+    store.dispatch({type: 'DELETE', id: Number(req.params.id) });
+    res.end();
+    return next();
+  });
+
+  server.patch('/:id', (req, res, next) => {
+    store.dispatch({type: 'EDIT', id: Number(req.params.id), patch: req.body});
+    res.json(urlDecorator.decorate(findById(req.params.id), req));
     return next();
   });
 
@@ -40,8 +50,7 @@ export default function startServer(store){
     console.log(`${server.name} listening at ${server.url}`);
   });
 
-  function buildBaseUrl(req, todo) {
-    let path = server.router.render('id', {id: todo.id});
-    return `${req.isSecure() ? 'https' : 'http'}://${req.headers.host}${path}`;
+  function findById(id) {
+    return store.getState().get('todos').get(Number(id));
   }
 }
