@@ -12,7 +12,7 @@
     "immutable": "^3.8.1",
     "redux": "^3.1.6",
     "restify": "^4.1.1",
-    "shortid": "^2.2.4"
+    "shortid": "^2.2.6"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
