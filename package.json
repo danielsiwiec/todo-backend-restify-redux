@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "immutable": "^3.8.1",
-    "redux": "^3.1.6",
+    "redux": "^3.6.0",
     "restify": "^4.1.1",
     "shortid": "^2.2.6"
   },
