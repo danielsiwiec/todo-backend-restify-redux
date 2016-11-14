@@ -11,7 +11,7 @@
   "dependencies": {
     "immutable": "^3.8.1",
     "redux": "^3.1.6",
-    "restify": "^4.1.1",
+    "restify": "^4.3.0",
     "shortid": "^2.2.6"
   },
   "devDependencies": {
